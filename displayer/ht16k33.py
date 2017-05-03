@@ -1,3 +1,4 @@
+import euglena_port
 import ubinascii
 
 HT16K33_CMD_BRIGHTNESS = const(0xE0)
@@ -38,8 +39,8 @@ segment_font = [0b00111111, #0
         0b01000000, #Err
      ]
 
-class ht16k33:
-    def __init__(self,i2c,addr=0x70):
+class ht16k33():
+    def __init__(self,port,addr=0x70):
         self.i2c = i2c
         self.addr = addr
         self.temp = bytearray(2)
