@@ -17,6 +17,28 @@ class Euglena_port(object):
             self.S4  = Pin(pins[1],mode=Pin.IN,pull=None)
         self.i2c = I2C(port_nu,pins=(pins[1],pins[0]),mode=I2C.MASTER)
         return
+import time
+class Euglena_hc(Euglena_port):
+    def __init__(self,port_nu):
+        super().__init__(port_nu)
+        self.S2.pull(Pin.PULL_UP)
+        self.last = 0
+
+    def irq_handle(self,obj):
+        div=time.ticks_us()
+        print(div - self.last)
+        self.S2.callback(0,None)
+
+    def disctance(self):
+        self.S1.mode(Pin.OUT)
+        self.S1.value(0)
+        time.sleep_ms(1)
+        self.S1.value(1)
+        time.sleep_ms(10)
+        self.S1.value(0)
+        self.S2.mode(Pin.IN)
+        self.last = time.ticks_us()
+        ##self.S2.callback(Pin.IRQ_HIGH_LEVEL,self.irq_handle,self)
 
 class Euglena_ameba_port(Euglena_port):
     def __init__(self,port_nu):

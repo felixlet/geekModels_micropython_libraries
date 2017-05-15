@@ -41,11 +41,13 @@ segment_font = [0b00111111, #0
 
 class ht16k33():
     def __init__(self,port,addr=0x70):
-        self.i2c = i2c
+        ep = euglena_port.Euglena_port(port)
+        self.i2c = ep.i2c
         self.addr = addr
         self.temp = bytearray(2)
         self.display = bytearray(16)
-    
+        self.init()
+
     def write_cmd(self,cmd):
         self.temp = bytearray(1)
         self.temp[0] = cmd
