@@ -1,16 +1,18 @@
 # main.py -- put your code here!
 import euglena_board
 board = euglena_board.Euglena_board()
-board.connect_sta()
+try:
+    board.connect_sta()
+    init_info = 'ready!\n%s' % board.get_sta_ip()
+except Exception as ex:
+    init_info = 'Please reset\n%s' % str(ex)
 
 import euglena_script
 iot = euglena_script.Euglena_pyscript()
-iot.set_owner_uuid('a')
+iot.init()
 
 import ili9341
-lcd = ili9341.get_m5_display()
+#lcd = ili9341.get_m5_display()
 import freesans20 as ff
-lcd.text('ready!%s' % board.get_sta_ip(),10,10,font=ff)
-#import euglena_port
-#vg=euglena_port.Euglena_vguang_port()
-#vg.init_auto_publish(0,600)
+#lcd.text(init_info,10,10,font=ff)
+

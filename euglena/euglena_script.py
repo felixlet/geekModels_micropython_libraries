@@ -40,9 +40,7 @@ class Euglena_pyscript(object):
         self.mqtt = pyscript_mqtt_client
         self.mqtt.username_pw_set(mqtt_account['username'],mqtt_account['password'])
         self.mqtt_username = mqtt_account['username']
-        self.remote_username = None
-        
-        ##self.mqtt.subscribe("pyscript/a/a/reults",0)
+        self.remote_username = board.get_mqtt_remote_username()
         self.mqtt.on_message(self.on_mqtt_message)
         self.mqtt.connect_async(board.get_mqtt_host(),port=8882)
         self.mqtt.init()
@@ -79,10 +77,9 @@ class Euglena_pyscript(object):
             self.err = str(ex)
             self.err_count += 1
 
-    def set_owner_uuid(self,owner_uuid):   
+    def init(self):   
         global pyscript_mqtt_print_topic 
-        pyscript_mqtt_print_topic = 'pyscript/b/a/results'
-        self.remote_username = owner_uuid
-        print("pyscript/%s/%s/script" % (owner_uuid,self.mqtt_username))
-        self.mqtt.subscribe("pyscript/%s/%s/script" % (owner_uuid,self.mqtt_username))
+        pyscript_mqtt_print_topic = 'pyscript/%s/%s/results' %(self.mqtt_username,self.remote_username)
+        print(pyscript_mqtt_print_topic)
+        self.mqtt.subscribe("pyscript/%s/%s/script" % (self.remote_username,self.mqtt_username))
 
