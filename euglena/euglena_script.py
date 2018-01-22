@@ -41,6 +41,7 @@ class Euglena_pyscript(object):
         self.mqtt.username_pw_set(mqtt_account['username'],mqtt_account['password'])
         self.mqtt_username = mqtt_account['username']
         self.remote_username = board.get_mqtt_remote_username()
+        
         self.mqtt.on_message(self.on_mqtt_message)
         self.mqtt.connect_async(board.get_mqtt_host(),port=8882)
         self.mqtt.init()

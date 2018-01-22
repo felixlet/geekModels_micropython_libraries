@@ -215,14 +215,13 @@ class ILI9341:
             nonlocal tx, ty
 
             tx = x
-            if font == None:
-                ty += 8
-            else:
+            if font != None:
                 ty += font.height()
-
+            else:    
+                ty += 8
             if ty >= vwrap:
                 ty = y
-
+ 
         for char in text:
             if char == '\n':
                 if clear_eol and tx < wrap:
